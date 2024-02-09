@@ -30,6 +30,9 @@ RUN chmod +x vsock-to-ip
 RUN wget -O dnsproxy http://public.artifacts.marlin.pro/projects/enclaves/dnsproxy_v0.46.5_linux_amd64
 RUN chmod +x dnsproxy
 
+RUN wget -O oyster-keygen http://public.artifacts.marlin.pro/projects/enclaves/keygen-secp256k1_v1.0.0_linux_amd64
+RUN chmod +x oyster-keygen
+
 RUN curl https://ollama.ai/install.sh | sh
 
 RUN echo $HOME
@@ -40,6 +43,9 @@ COPY supervisord.conf /etc/supervisord.conf
 # setup.sh script that will act as entrypoint
 COPY setup.sh ./
 RUN chmod +x setup.sh
+
+COPY http_proxy ./
+RUN chmod +x http_proxy
 
 RUN mkdir ollamatmp
 

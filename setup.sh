@@ -19,6 +19,7 @@ ip route add default src 127.0.0.1 dev lo
 
 # generate identity key
 /app/keygen --secret /app/id.sec --public /app/id.pub
+/app/oyster-keygen --secret /app/secp.sec --public /app/secp.pub
 
 # your custom setup goes here
 which ollama
