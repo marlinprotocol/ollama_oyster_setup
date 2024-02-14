@@ -12,7 +12,8 @@ Nitro enclave are disabled by default, go the `Advanced` Section and enable them
 ### Log in
 > ssh ubuntu@instance_ip
 
-Increase the `memory_mib` to atleast `8000 MB` and `cpu_count` to atleast `4`
+Increase the `memory_mib` to atleast `8000 MB` and `cpu_count` to atleast `4`.
+Make sure the CPU count and memory in the build.sh script are within the range specified in the allocator.yaml file.
 
 `vim /etc/nitro-enclaves/allocator.yaml`
 
@@ -57,6 +58,10 @@ sudo nft add table ip nat
 
 sudo nft add chain ip nat PREROUTING { type nat hook prerouting priority 0 \; }
 
+sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 80 counter redirect to :1200
+
+sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 443 counter redirect to :1200
+
 sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 1025-65535 counter redirect to :1200
 
 ```
@@ -65,8 +70,8 @@ sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 1025-65535 counter 
 
 Test using the `curl` from host machine
 ```
-curl http://localhost:11434/api/generate -d '{
-  "model": "llama2",
+curl http://{{instance-ip}}:5000/api/generate -d '{
+  "model": "tinyllama",
   "prompt":"Why is the sky blue?"
 }'
 ```
