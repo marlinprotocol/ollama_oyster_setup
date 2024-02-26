@@ -37,6 +37,10 @@ RUN curl https://ollama.ai/install.sh | sh
 
 RUN echo $HOME
 
+#attestation utility
+RUN wget -O oyster-attestation-server-secp256k1 http://public.artifacts.marlin.pro/projects/enclaves/attestation-server-secp256k1_v1.0.0_linux_amd64
+RUN chmod +x oyster-attestation-server-secp256k1
+
 # supervisord config
 COPY supervisord.conf /etc/supervisord.conf
 
