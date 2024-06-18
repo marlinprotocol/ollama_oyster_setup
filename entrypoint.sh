@@ -8,7 +8,7 @@ docker buildx create --name multiplatformEnclave --driver docker-container --boo
 docker buildx use multiplatformEnclave
 
 cd /app/mount/setup
-docker buildx build --build-arg TARGETARCH=arm64 --platform linux/arm64 -t enclave:latest --load .
+docker buildx build --build-arg TARGETARCH=amd64 --platform linux/amd64 -t enclave:latest --load .
 
 mkdir -p /app/mount/enclave
 mkdir -p /var/log/nitro_enclaves
