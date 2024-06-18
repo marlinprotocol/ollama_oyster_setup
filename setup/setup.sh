@@ -22,13 +22,6 @@ ip route add default src 127.0.0.1 dev lo
 /app/oyster-keygen --secret /app/secp.sec --public /app/secp.pub
 
 # your custom setup goes here
-which ollama
-
-grep avx2 /proc/cpuinfo
-
-ls tmp
-
-ls app
 
 # starting supervisord
 /app/supervisord
