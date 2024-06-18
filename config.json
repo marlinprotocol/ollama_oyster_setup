@@ -7,6 +7,27 @@
     },
     "service_commands": [
         {
+            "name": "oyster_keygen",
+            "command": "",
+            "build_commands": [
+                "wget -O oyster-keygen http://public.artifacts.marlin.pro/projects/enclaves/keygen-secp256k1_v1.0.0_linux_{ARCH}",
+                "chmod +x /app/oyster-keygen",
+                "/app/oyster-keygen --secret /app/secp.sec --public /app/secp.pub"
+            ],
+            "ports": [],
+            "env": {}
+        },
+        {
+            "name": "oyster_attestation_secp256k1",
+            "command": "/app/oyster-attestation-server-secp256k1 --ed25519-secret /app/id.sec --secp256k1-public /app/secp.pub --attestation-port 1300 --ip 127.0.0.1 --port 1500",
+            "build_commands": [
+                "wget -O oyster-attestation-server-secp256k1 http://public.artifacts.marlin.pro/projects/enclaves/attestation-server-secp256k1_v1.0.0_linux_{ARCH}",
+                "chmod +x /app/oyster-attestation-server-secp256k1"
+            ],
+            "ports": [1500],
+            "env": {}
+        },
+        {
             "name": "ollama_http_proxy",
             "command": "/app/mount/http_proxy -- 127.0.0.1 5000 127.0.0.1 11434",
             "build_commands": [
