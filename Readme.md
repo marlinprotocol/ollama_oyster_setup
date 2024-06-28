@@ -1,6 +1,6 @@
 # Oyster Ollama Setup
 
-Launch enclave compatible instance, like `marlin/oyster/worker-tuna-amd64-20231016`. 
+Launch enclave compatible instance, like `marlin/oyster/worker-salmon-amd64-20231016`. 
 Ensure instance has atleast `8vCPUs` and `16 GB Memory`
 
 ![Instance Types](./static/instance_types.png)
@@ -15,7 +15,7 @@ Nitro enclave are disabled by default, go the `Advanced` Section and enable them
 Increase the `memory_mib` to atleast `8000 MB` and `cpu_count` to atleast `4`.
 Make sure the CPU count and memory in the build.sh script are within the range specified in the allocator.yaml file.
 
-`vim /etc/nitro-enclaves/allocator.yaml`
+`vim /etc/nitro_enclaves/allocator.yaml`
 
 ```
 ---
