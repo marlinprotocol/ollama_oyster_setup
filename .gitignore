@@ -1,1 +1,4 @@
 *.eif
+result
+target
+*.tar
