@@ -1,7 +1,7 @@
 services:
   # http proxy service
   http_proxy:
-    image: kalpita888/ollama_amd64:0.0.1
+    image: http_proxy:latest
     container_name: http_proxy
     init: true
     network_mode: host
@@ -14,9 +14,6 @@ services:
     container_name: ollama_server
     init: true
     network_mode: host
-    environment:
-      - HOME=/root
-      - TMPDIR=/app/ollamatmp/
     healthcheck:
       test: ["CMD-SHELL", "ollama --version"]
       interval: 10s
@@ -29,9 +26,6 @@ services:
     command: pull llama3.2
     init: true
     network_mode: host
-    environment:
-      - HOME=/root
-      - TMPDIR=/app/ollamatmp/
     depends_on:
       ollama_server:
         condition: service_healthy

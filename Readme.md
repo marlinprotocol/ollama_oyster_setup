@@ -71,7 +71,7 @@ sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 1025-65535 counter 
 Test using the `curl` from host machine
 ```
 curl http://{{instance-ip}}:5000/api/generate -d '{
-  "model": "tinyllama",
+  "model": "llama3.2",
   "prompt":"Why is the sky blue?"
 }'
 ```
