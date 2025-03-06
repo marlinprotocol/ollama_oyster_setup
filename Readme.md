@@ -12,6 +12,7 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
 1. Clone the repo
   ```sh
   git clone https://github.com/marlinprotocol/ollama_oyster_setup.git
+  cd ollama_oyster_setup
   ```
 
 2. Build and export the docker image
@@ -54,7 +55,7 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
    # replace <url> with url from the upload step
    oyster-cvm deploy --wallet-private-key <key> --image-url <url> --instance-type c6g.4xlarge --region ap-south-1 --operator 0xe10Fa12f580e660Ecd593Ea4119ceBC90509D642 --duration-in-minutes 15
    ```
-   Make a note of the IP from the output.
+   Make a note of the IP from the output and wait for ~2min for the model pull to finish.
 
 8. Test using `curl` from host machine
   ```sh
