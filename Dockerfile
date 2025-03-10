@@ -1,5 +1,5 @@
 # Build stage
-FROM rust:latest as build
+FROM rust:latest AS build
 WORKDIR /usr/src/app
 COPY ./oyster_http_proxy .
 RUN cargo build --release

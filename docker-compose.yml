@@ -1,7 +1,7 @@
 services:
   # http proxy service
   http_proxy:
-    image: http_proxy:latest
+    image: kalpita888/ollama_arm64:0.0.1                        # For arm64 system use kalpita888/ollama_arm64:0.0.1 and for amd64 system use kalpita888/ollama_amd64:0.0.1
     container_name: http_proxy
     init: true
     network_mode: host
