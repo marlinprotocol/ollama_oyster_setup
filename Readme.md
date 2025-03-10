@@ -6,7 +6,7 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
 - Check your [System requirements](https://docs.marlin.org/oyster/build-cvm/tutorials/)
 - Setup the [Development environment](https://docs.marlin.org/oyster/build-cvm/tutorials/setup)
 
-## Steps for using Marlin's TEE (only supports Linux systems)
+## Steps for using Marlin's TEE
 
 1. Clone the repo
   ```sh
