@@ -27,8 +27,7 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
   ```sh
   # for amd64
   # replace <key> with private key of the wallet
-  # replace <url> with url from the upload step
-  oyster-cvm deploy --wallet-private-key <key> --docker-compose ./docker-compose.yml --instance-type c6g.4xlarge --region ap-south-1  --operator 0xe10Fa12f580e660Ecd593Ea4119ceBC90509D642 --duration-in-minutes 20 --pcr-preset base/blue/v1.0.0/amd64
+  oyster-cvm deploy --wallet-private-key <key> --docker-compose ./docker-compose.yml --instance-type c6a.4xlarge --region ap-south-1  --operator 0xe10Fa12f580e660Ecd593Ea4119ceBC90509D642 --duration-in-minutes 20 --pcr-preset base/blue/v1.0.0/amd64
 
   # for arm64
   # replace <key> with private key of the wallet
