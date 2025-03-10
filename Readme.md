@@ -21,9 +21,9 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
     image: kalpita888/ollama_arm64:0.0.1                        # For arm64 system use kalpita888/ollama_arm64:0.0.1 and for amd64 system use kalpita888/ollama_amd64:0.0.1
   ```
 
-2. Set up a wallet where you can export the private key. Deposit 0.001 ETH and 1 USDC to the wallet on the Arbitrum One network.
+3. Set up a wallet where you can export the private key. Deposit 0.001 ETH and 1 USDC to the wallet on the Arbitrum One network.
 
-3. Deploy the enclave image 
+4. Deploy the enclave image 
   ```sh
   # for amd64
   # replace <key> with private key of the wallet
@@ -34,21 +34,20 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
   # replace <key> with private key of the wallet
   oyster-cvm deploy --wallet-private-key <key> --docker-compose ./docker-compose.yml --instance-type c6g.4xlarge --region ap-south-1  --operator 0xe10Fa12f580e660Ecd593Ea4119ceBC90509D642 --duration-in-minutes 20 --pcr-preset base/blue/v1.0.0/arm64
   ```
-  Make a note of the IP from the output and wait for ~2min for the model pull to finish.
+  Make a note of the IP from the output and wait for ~4min for the model pull to finish.
 
-4. Test using `curl` from host machine
+5. Test using `curl` from host machine
   ```sh
-  curl http://3.7.139.214:5000/api/generate -d '{
+  curl http://{{instance-ip}}:5000/api/generate -d '{
     "model": "llama3.2",
     "prompt":"Why is the sky blue?"
   }'
   ```
 
-5. Verify a remote attestation (recommended)
+6. Verify a remote attestation (recommended)
   ```sh
   # Replace <ip> with the IP you obtained above
-  # Replace <pcrs> with values from pcr.json
-  oyster-cvm verify --enclave-ip <ip> -0 <pcr0> -1 <pcr1> -2 <pcr2>
+  oyster-cvm verify --enclave-ip <ip>
   ```
   You should see `Verification successful` along with some attestation fields printed out.
 
