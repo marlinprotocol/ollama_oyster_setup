@@ -10,7 +10,7 @@ services:
 
   # Ollama service
   ollama_server:
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.6.0
     container_name: ollama_server
     init: true
     network_mode: host
@@ -21,7 +21,7 @@ services:
 
   # Ollama model run
   ollama_model:
-    image: ollama/ollama:latest
+    image: ollama/ollama:0.6.0
     container_name: ollama_model_llama3.2
     command: pull llama3.2
     init: true
