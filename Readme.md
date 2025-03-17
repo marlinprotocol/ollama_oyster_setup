@@ -43,7 +43,14 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
   }'
   ```
 
-6. Verify a remote attestation (recommended)
+6. Running the `curl` command above with `-v` option shows us two important headers:
+  ```
+  x-oyster-timestamp: 1741620242
+  x-oyster-signature: 8781e472b0f8e3693c1c6cec60b1ae0f5fed4c574d24e3bfcc6cc23f02a918a8785709ceb8a464a7d1dbbb8809ba73047acaa3ff5f1918ba565d82d177e123801b
+  ```
+  The above signature can be used to verify that the response is received from an enclave.
+
+7. Verify a remote attestation (recommended)
   ```sh
   # Replace <ip> with the IP you obtained above
   oyster-cvm verify --enclave-ip <ip>
