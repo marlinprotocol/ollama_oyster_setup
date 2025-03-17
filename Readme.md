@@ -1,77 +1,61 @@
 # Oyster Ollama Setup
 
-Launch enclave compatible instance, like `marlin/oyster/worker-salmon-amd64-20231016`. 
-Ensure instance has atleast `8vCPUs` and `16 GB Memory`
+Deploy llama3.2 on Oyster using the ollama framework and interact with it in a verifiable manner.
 
-![Instance Types](./static/instance_types.png)
+## Prerequisites
+- Check your [System requirements](https://docs.marlin.org/oyster/build-cvm/tutorials/)
+- Setup the [Development environment](https://docs.marlin.org/oyster/build-cvm/tutorials/setup)
 
-Nitro enclave are disabled by default, go the `Advanced` Section and enable them before launching your instance
+## Steps for using Marlin's TEE
 
-![Enable](./static/nitro_enable.png)
+1. Clone the repo
+  ```sh
+  git clone https://github.com/marlinprotocol/ollama_oyster_setup.git
+  cd ollama_oyster_setup
+  ```
 
-### Log in
-> ssh ubuntu@instance_ip
+2. Update the following docker images according to your system's architecture in the `docker-compose.yml`
+  ```sh
+  # http proxy service
+  http_proxy:
+    image: kalpita888/ollama_arm64:0.0.1                        # For arm64 system use kalpita888/ollama_arm64:0.0.1 and for amd64 system use kalpita888/ollama_amd64:0.0.1
+  ```
 
-Increase the `memory_mib` to atleast `8000 MB` and `cpu_count` to atleast `4`.
-Make sure the CPU count and memory in the build.sh script are within the range specified in the allocator.yaml file.
+3. Set up a wallet where you can export the private key. Deposit 0.001 ETH and 1 USDC to the wallet on the Arbitrum One network.
 
-`vim /etc/nitro_enclaves/allocator.yaml`
+4. Deploy the enclave image 
+  ```sh
+  # for amd64
+  # replace <key> with private key of the wallet
+  oyster-cvm deploy --wallet-private-key <key> --docker-compose ./docker-compose.yml --instance-type c6a.4xlarge --region ap-south-1  --operator 0xe10Fa12f580e660Ecd593Ea4119ceBC90509D642 --duration-in-minutes 20 --pcr-preset base/blue/v1.0.0/amd64 --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif
 
-```
----
-# Enclave configuration file.
-#
-# How much memory to allocate for enclaves (in MiB).
-memory_mib: 8000
-#
-# How many CPUs to reserve for enclaves.
-cpu_count: 6
-#
-# Alternatively, the exact CPUs to be reserved for the enclave can be explicitly
-# configured by using `cpu_pool` (like below), instead of `cpu_count`.
-# Note: cpu_count and cpu_pool conflict with each other. Only use exactly one of them.
-# Example of reserving CPUs 2, 3, and 6 through 9:
-# cpu_pool: 2,3,6-9
-~                   
-```
+  # for arm64
+  # replace <key> with private key of the wallet
+  oyster-cvm deploy --wallet-private-key <key> --docker-compose ./docker-compose.yml --instance-type c6g.4xlarge --region ap-south-1  --operator 0xe10Fa12f580e660Ecd593Ea4119ceBC90509D642 --duration-in-minutes 20 --pcr-preset base/blue/v1.0.0/arm64 --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_arm64.eif
+  ```
+  Make a note of the IP from the output and wait for ~4min for the model pull to finish.
 
-### Clone the repo
+5. Test using `curl` from host machine
+  ```sh
+  curl http://{{instance-ip}}:5000/api/generate -d '{
+    "model": "llama3.2",
+    "prompt":"Why is the sky blue?"
+  }'
+  ```
 
-```
-git clone https://github.com/marlinprotocol/ollama_oyster_setup.git
-```
+6. Running the `curl` command above with `-v` option shows us two important headers:
+  ```
+  x-oyster-timestamp: 1741620242
+  x-oyster-signature: 8781e472b0f8e3693c1c6cec60b1ae0f5fed4c574d24e3bfcc6cc23f02a918a8785709ceb8a464a7d1dbbb8809ba73047acaa3ff5f1918ba565d82d177e123801b
+  ```
+  The above signature can be used to verify that the response is received from an enclave.
 
-### Build instance
-```
-chmod +x ./build.sh
-./build.sh
-```
+7. Verify a remote attestation (recommended)
+  ```sh
+  # Replace <ip> with the IP you obtained above
+  oyster-cvm verify --enclave-ip <ip>
+  ```
+  You should see `Verification successful` along with some attestation fields printed out.
 
-### Connect Enclave
-
-by default enclave can not be reached. apply the following command on host machine to make ports inside enclave reachable
-
-```
-sudo nft list ruleset
-
-sudo nft add table ip nat
-
-sudo nft add chain ip nat PREROUTING { type nat hook prerouting priority 0 \; }
-
-sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 80 counter redirect to :1200
-
-sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 443 counter redirect to :1200
-
-sudo nft add rule ip nat PREROUTING iifname "ens5" tcp dport 1025-65535 counter redirect to :1200
-
-```
-
-### Test
-
-Test using the `curl` from host machine
-```
-curl http://{{instance-ip}}:5000/api/generate -d '{
-  "model": "tinyllama",
-  "prompt":"Why is the sky blue?"
-}'
-```
+Head over to [Oyster Confidential VM tutorials](https://docs.marlin.org/oyster/build-cvm/tutorials/) for more details.
+ 
