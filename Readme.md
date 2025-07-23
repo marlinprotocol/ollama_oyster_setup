@@ -16,8 +16,8 @@ Deploy llama3.2 on Oyster using the ollama framework and interact with it in a v
 
 2. Update the following docker images according to your system's architecture in the `docker-compose.yml`
   ```sh
-  # http proxy service
-  http_proxy:
+  # llama http proxy service
+  llama_proxy:
     image: kalpita888/ollama_arm64:0.0.1                        # For arm64 system use kalpita888/ollama_arm64:0.0.1 and for amd64 system use kalpita888/ollama_amd64:0.0.1
   ```
 
